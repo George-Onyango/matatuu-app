@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "334856268343",
+    "project_id": "matatuu-308fa",
+    "storage_bucket": "matatuu-308fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334856268343:android:84aba1cd696fd91924adb2",
+        "android_client_info": {
+          "package_name": "com.example.matatuu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "334856268343-9aea70fsas0vnr66m774nlijv6og5ed3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGYF_zIuOhkU45QB7l0_tVlCjHO5Ud4Y4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "334856268343-9aea70fsas0vnr66m774nlijv6og5ed3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
