@@ -8,4 +8,14 @@
     <string name="last_name">Last Name</string>
     <string name="login">Login</string>
     <string name="login_form">Login Form</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logout">Logout</string>
+    <string name="profile">Profile</string>
+    <string name="history">History</string>
+    <string name="home">Home</string>
+    <string name="homeIntro">Welcome</string>
+    <string name="orderTitle">Order</string>
+    <string name="loresho">loresho...</string>
+    <string name="order_item">Order</string>
 </resources>

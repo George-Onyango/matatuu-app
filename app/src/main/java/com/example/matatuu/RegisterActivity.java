@@ -1,21 +1,18 @@
 package com.example.matatuu;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -35,54 +32,37 @@ public class RegisterActivity extends AppCompatActivity {
 
         Button btnRegister = findViewById(R.id.btnRegister);
 
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                registerUser();
-            }
-        });
+        btnRegister.setOnClickListener(view -> registerUser());
 
         TextView textViewSwitchToLogin = findViewById(R.id.tvSwitchToLogin);
-        textViewSwitchToLogin.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                switchToLogin();
-            }
-        });
+        textViewSwitchToLogin.setOnClickListener(view -> switchToLogin());
     }
 
     private void registerUser() {
         EditText etFirstName = findViewById(R.id.etFirstName);
         EditText etLastName = findViewById(R.id.etLastName);
         EditText etRegisterEmail = findViewById(R.id.etRegisterEmail);
+        EditText etRegisterPhone = findViewById(R.id.etRegisterPhone);
         EditText etRegisterPassword = findViewById(R.id.etRegisterPassword);
 
         String firstName = etFirstName.getText().toString();
         String lastName = etLastName.getText().toString();
         String email = etRegisterEmail.getText().toString();
         String password = etRegisterPassword.getText().toString();
+        String mobile = etRegisterPhone.getText().toString();
 
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || mobile.isEmpty()) {
             Toast.makeText(this, "Please key in all fields", Toast.LENGTH_LONG).show();
             return;
         }
 
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>(){
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, task -> {
+            if(task.isSuccessful()){
+                User user = new User(firstName,lastName,email,mobile);
 
-            public void onComplete(@NonNull Task<AuthResult> task){
-                if(task.isSuccessful()){
-                    User user = new User(firstName,lastName,email);
-
-                    FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            showMainActivity();
-                        }
-                    });
-                } else{
-                    Toast.makeText(RegisterActivity.this, "Register failed, try again.", Toast.LENGTH_LONG).show();
-                }
+                FirebaseDatabase.getInstance().getReference("users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).setValue(user).addOnCompleteListener(task1 -> showMainActivity());
+            } else{
+                Toast.makeText(RegisterActivity.this, "Register failed, try again.", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -91,13 +71,11 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
-        return;
     }
 
     private void switchToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
-        return;
     }
 }
